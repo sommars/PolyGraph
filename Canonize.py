@@ -64,7 +64,7 @@ def CreateNautyString(Polys):
     This function takes in the polynomials in the list of lists of lists format
     and converts them into a string that Nauty can read.
     """
-    def NautyString(Polys, VarPart, MonPart, PolyPart, PowerPart):
+    def NautyString(Polys, RootPart, VarPart, MonPart, PolyPart, PowerPart):
     
         def PartString(Partition):
             return str(Partition).replace(',','')[1:-1]
@@ -75,8 +75,9 @@ def CreateNautyString(Polys):
                 ReturnString += str(Term) + ' '
         
             ReturnString += ';'
-        ReturnString = ReturnString[:-1] + '. f = [' + PartString(VarPart) + ' | ' 
-        ReturnString += PartString(MonPart) + ' | ' + PartString(PolyPart) + ' | '
+        ReturnString = ReturnString[:-1] + '. f = [ ' + str(RootPart) + ' | ' 
+        ReturnString += PartString(VarPart) + ' | ' + PartString(MonPart) 
+        ReturnString += ' | ' + PartString(PolyPart) + ' | '
         for Part in PowerPart:
             ReturnString += PartString(Part) + ' | '
         ReturnString +=  '] x @ b'
@@ -142,7 +143,7 @@ def CreateNautyString(Polys):
         PartList[-1].append(TermToNode[Key])
     print PartList
     print PowerString
-    return NautyString(SystemAsLists, Variables, Monomials, Polynomials, PartList)
+    return NautyString(SystemAsLists, SystemNode, Variables, Monomials, Polynomials, PartList)
 
 #-------------------------------------------------------------------------------
 def FindThirdLineIndex(Output):
