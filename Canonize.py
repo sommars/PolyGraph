@@ -81,10 +81,10 @@ def CreateNautyString(Polys):
         for Part in PowerPart:
             ReturnString += PartString(Part) + ' | '
         ReturnString +=  '] x @ b'
-        print ""
-        print "This is the string we are giving to nauty to canonize:"
-        print ReturnString 
-        print ""
+        #print ""
+        #print "This is the string we are giving to nauty to canonize:"
+        #print ReturnString 
+        #print ""
         return ReturnString
     
     SystemAsLists = []
@@ -120,8 +120,8 @@ def CreateNautyString(Polys):
                         NewNodeRef += 1
                         SystemAsLists[k].append(TermToNode[(k, Polys[i][j][k])])
                     SystemAsLists[MonomialNode].append(TermToNode[(k, Polys[i][j][k])])
-    print "This is the system converted into our pre-graph list format:"
-    print SystemAsLists
+    #print "This is the system converted into our pre-graph list format:"
+    #print SystemAsLists
     
     PartList = [[]]
     ExponentsToPartition = (TermToNode.keys())
@@ -141,15 +141,15 @@ def CreateNautyString(Polys):
             PartList.append([])
             MinValue = Key[1]
         PartList[-1].append(TermToNode[Key])
-    print PartList
-    print PowerString
+    #print PartList
+    #print PowerString
     return NautyString(SystemAsLists, SystemNode, Variables, Monomials, Polynomials, PartList)
 
 #-------------------------------------------------------------------------------
 def FindThirdLineIndex(Output):
     """
-    
-    
+    This function finds the index of the third new line.
+    It is necessary because of the way Nauty spits out its output.
     """
     NewLineIndex = Output.find('\n')
     n = 3
