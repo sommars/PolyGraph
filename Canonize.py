@@ -90,13 +90,13 @@ def CreateNautyString(Polys):
     SystemAsLists = []
     n = len(Polys[0][0])
 
-    for n in xrange(n):
+    for i in xrange(n):
         SystemAsLists.append([])
         
     Monomials = []
     Polynomials = []
-    Variables = range(n+1)
-    NewNodeRef = n + 1
+    Variables = range(n)
+    NewNodeRef = n
     TermToNode = {}
     SystemNode = NewNodeRef
     SystemAsLists.append([])
