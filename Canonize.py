@@ -75,7 +75,7 @@ def CreateNautyString(Polys):
                 ReturnString += str(Term) + ' '
         
             ReturnString += ';'
-        ReturnString = ReturnString[:-1] + '. f = [ ' + str(RootPart) + ' | ' 
+        ReturnString = ReturnString[:-1] + '. f = [ 0 | ' + str(RootPart) + ' | ' 
         ReturnString += PartString(VarPart) + ' | ' + PartString(MonPart) 
         ReturnString += ' | ' + PartString(PolyPart) + ' | '
         for Part in PowerPart:
@@ -96,6 +96,7 @@ def CreateNautyString(Polys):
     Monomials = []
     Polynomials = []
     Variables = range(n)
+    Variables.remove(0)
     NewNodeRef = n
     TermToNode = {}
     SystemNode = NewNodeRef
