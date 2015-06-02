@@ -147,19 +147,6 @@ def CreateNautyString(Polys):
     return NautyString(SystemAsLists, SystemNode, Variables, Monomials, Polynomials, PartList)
 
 #-------------------------------------------------------------------------------
-def FindThirdLineIndex(Output):
-    """
-    This function finds the index of the third new line.
-    It is necessary because of the way Nauty spits out its output.
-    """
-    NewLineIndex = Output.find('\n')
-    n = 3
-    while NewLineIndex >= 0 and n > 1:
-        NewLineIndex = Output.find('\n', NewLineIndex+len('\n'))
-        n -= 1
-    return NewLineIndex
-
-#-------------------------------------------------------------------------------
 def GetUniqueString(CanonizedLists):
     """
     This function takes a polynomial in the desired format, and then it performs
@@ -168,7 +155,7 @@ def GetUniqueString(CanonizedLists):
     from subprocess import Popen, PIPE, STDOUT
     p = Popen([nautyPath], stdout = PIPE, stdin = PIPE, stderr = STDOUT)
     Output = p.communicate(input = CanonizedLists)[0]
-    return Output[FindThirdLineIndex(Output):] + PowerString
+    return Output[Output.find(':') - 4:] + PowerString
 
 
 import sys
