@@ -12,9 +12,9 @@ def TableauToLists(SystemString):
     System = []
     while len(SystemString)>0:
         Equation = []
-        for i in xrange(int(SystemString.pop(0))):
+        for i in range(int(SystemString.pop(0))):
             Monomial = SystemString.pop(0).split(' ')[3:]
-            for i in xrange(len(Monomial)):
+            for i in range(len(Monomial)):
                 Monomial[i] = int(Monomial[i])
             Equation.append(Monomial)
         System.append(Equation)
@@ -45,16 +45,16 @@ def CreateCyclicLists(n):
     cyclic n root polynomial system for the given n.
     """
     system = []
-    for i in xrange(n-1):
+    for i in range(n-1):
         equation = []
-        for j in xrange(n):
-            mon = [0 for x in xrange(n)]
-            for k in xrange(i+1):
+        for j in range(n):
+            mon = [0 for x in range(n)]
+            for k in range(i+1):
                 mon[(j+k)%n]=1
             equation.append(mon)
         system.append(equation)
-    mon1 = [0 for x in xrange(n)]
-    mon2 = [1 for x in xrange(n)]
+    mon1 = [0 for x in range(n)]
+    mon2 = [1 for x in range(n)]
     system.append([mon1,mon2])
     return system
 
@@ -90,30 +90,30 @@ def CreateNautyString(Polys):
     SystemAsLists = []
     n = len(Polys[0][0])
 
-    for i in xrange(n):
+    for i in range(n):
         SystemAsLists.append([])
         
     Monomials = []
     Polynomials = []
-    Variables = range(n)
+    Variables = list(range(n))
     Variables.remove(0)
     NewNodeRef = n
     TermToNode = {}
     SystemNode = NewNodeRef
     SystemAsLists.append([])
     NewNodeRef += 1
-    for i in xrange(len(Polys)):
+    for i in range(len(Polys)):
         PolyNode = NewNodeRef
         Polynomials.append(NewNodeRef)
         SystemAsLists.append([SystemNode])
         NewNodeRef += 1
-        for j in xrange(len(Polys[i])):
+        for j in range(len(Polys[i])):
             MonomialNode = NewNodeRef
             Monomials.append(NewNodeRef)
             SystemAsLists[PolyNode].append(MonomialNode)
             SystemAsLists.append([])
             NewNodeRef += 1
-            for k in xrange(len(Polys[i][j])):
+            for k in range(len(Polys[i][j])):
                 if Polys[i][j][k] != 0:
                     if (k, Polys[i][j][k]) not in TermToNode:
                         TermToNode[(k, Polys[i][j][k])] = NewNodeRef
@@ -125,12 +125,13 @@ def CreateNautyString(Polys):
     #print SystemAsLists
     
     PartList = [[]]
-    ExponentsToPartition = (TermToNode.keys())
+    ExponentsToPartition = list(TermToNode.keys())
+    
     ExponentsToPartition.sort(key=lambda x: x[1])
     CurrentPower = ExponentsToPartition[0][1]
     global PowerString
     PowerString = str(CurrentPower) + ' '
-    for i in xrange(len(ExponentsToPartition)):
+    for i in range(len(ExponentsToPartition)):
         PossiblyNewPower = ExponentsToPartition[i][1]
         if CurrentPower != PossiblyNewPower:
             CurrentPower = PossiblyNewPower
@@ -153,7 +154,7 @@ def GetUniqueString(CanonizedLists):
     the nauty call and parses the output to create the unique string.
     """
     from subprocess import Popen, PIPE, STDOUT
-    p = Popen([nautyPath], stdout = PIPE, stdin = PIPE, stderr = STDOUT)
+    p = Popen([nautyPath], stdout = PIPE, stdin = PIPE, stderr = STDOUT, universal_newlines = True)
     Output = p.communicate(input = CanonizedLists)[0]
     return Output[Output.find(':') - 4:] + PowerString
 
@@ -162,7 +163,7 @@ import sys
 try:
     assert len(sys.argv) > 1
     n = int(sys.argv[1])
-    print GetUniqueString(CreateNautyString(MakeConstIntoVar(CreateCyclicLists(n))))
+    print(GetUniqueString(CreateNautyString(MakeConstIntoVar(CreateCyclicLists(n)))))
 except AssertionError:
     Input = sys.stdin.read()
-    print GetUniqueString(CreateNautyString(TableauToLists(Input)))
+    print(GetUniqueString(CreateNautyString(TableauToLists(Input))))
